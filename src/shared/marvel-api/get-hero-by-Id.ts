@@ -6,13 +6,12 @@ interface Hero {
 
 interface Response {
   data: {
-    total: string
     results: any[]
   }
 }
 
-export const getHeroes = async (offset = 0) => {
-  const BASE_URL = `https://gateway.marvel.com/v1/public/characters?offset=${offset}&`
+export const getHeroById = async (id: string) => {
+  const BASE_URL = `https://gateway.marvel.com/v1/public/characters/${id}`
 
   try {
     const { data } = await axios.get<Response>(BASE_URL, {
@@ -23,13 +22,8 @@ export const getHeroes = async (offset = 0) => {
       }
     })
 
-
-    const heroesData = {
-      total: data.data.total,
-      results: data.data.results
-    }
-
-    return heroesData
+    const heroData = data.data.results
+    return heroData
   } catch (error) {
     console.error(error);
   }

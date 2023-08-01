@@ -1,13 +1,14 @@
-import { Typography } from "@/components/typography"
+import { Typography } from "@/components/Typography"
 import * as S from './styles'
-import { useEffect, useState } from "react"
-import axios from "axios"
+import {  useState } from "react"
+import { useHeroesStore } from "@/context"
+import { Favorite } from "@/components/Favorite"
 
-interface Props {
-  hero: any
-}
 
-export const Description = ({ hero }: Props) => {
+export const Description = () => {
+  const heroesContext = useHeroesStore()
+  const [hero] = heroesContext.heroById
+
   const [ratingURL, setRatingURL] = useState<string[]>([
     "../assets/review/ratingstar.png",
     "../assets/review/ratingstar.png",
@@ -21,12 +22,12 @@ export const Description = ({ hero }: Props) => {
       <S.Description>
         <S.Name>
           <Typography color='primary' size='large' weight='bold'>
-            {hero[0]?.name}
+            {hero?.name}
           </Typography>
-          <img src="../assets/icones/heart/heart1.png" alt="" height={20} />
+          <Favorite />
         </S.Name>
         <Typography className="text" color='tertiary' size='medium' weight='lighter'>
-          Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+         {hero?.description || 'sem descrição'}
         </Typography>
         <S.Collection>
           <S.Job>
@@ -36,7 +37,7 @@ export const Description = ({ hero }: Props) => {
             <div>
               <img src="../assets/icones/book/Group.png" height={30} />
               <Typography className="text" color='primary' size='medium' weight='lighter'>
-                3000
+                {hero?.comics.available}
               </Typography>
             </div>
           </S.Job>
@@ -47,7 +48,7 @@ export const Description = ({ hero }: Props) => {
             <div>
               <img src="../assets/icones/video/Shape.png" height={30} />
               <Typography className="text" color='primary' size='medium' weight='lighter'>
-                3000
+              {hero?.series.available}
               </Typography>
             </div>
           </S.Job>
@@ -85,7 +86,7 @@ export const Description = ({ hero }: Props) => {
           </Typography>
         </S.LastComic>
       </S.Description>
-      <img src={hero[0]?.thumbnail.path + '.' + hero[0]?.thumbnail.extension} alt="" height={'400px'} />
+      <img className="character" src={hero?.thumbnail.path + '.' + hero?.thumbnail.extension} alt="" height={'320px'} />
     </S.Container>
   )
 }

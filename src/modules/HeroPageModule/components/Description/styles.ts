@@ -2,7 +2,21 @@ import { styled } from "@/stitches.config";
 
 export const Container = styled('div', {
   display: 'flex',
-  justifyContent: 'space-between'
+  justifyContent: 'space-between',
+  '& .character': {
+    borderRadius: '6px'
+  },
+  '@media(max-width: 800px)': {
+    flexDirection: 'column-reverse',
+    alignItems: 'center',
+    gap: '2rem'
+  },
+
+  '@media(max-width: 400px)': {
+    '& .character': {
+      height: '240px'
+    }
+  },
 })
 
 export const Header = styled('header', {
@@ -29,11 +43,15 @@ export const Information = styled('div', {
 })
 
 export const Description = styled('div', {
-  width: '26%',
+  width: '30%',
   '& .text': {
     margin: '2rem 0',
     lineHeight: '1.6rem',
     textAlign: 'left'
+  },
+  '@media(max-width: 800px)': {
+    width: '100%',
+
   }
 })
 

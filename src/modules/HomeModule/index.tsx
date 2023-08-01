@@ -1,14 +1,15 @@
-import { SearchBar } from '../../components/searchBar'
-import { Typography } from '../../components/typography'
-import { Actions } from './components/actions'
-import { Heroes } from './components/heroes'
+import { Logo } from '@/components/Logo'
+import { SearchBar } from '../../components/SearchBar'
+import { Typography } from '../../components/Typography'
+import { Heroes } from './components/Heroes'
 import * as S from './styles'
 
 export const HomeModule = () => {
+
   return (
     <S.Container>
+      <Logo />
       <div className='text-container'>
-        <img src="assets/logo/Group.png" height={100} />
         <Typography color='primary' size='large' weight='bold'>
           EXPLORE O UNIVERSO
         </Typography>
@@ -17,7 +18,6 @@ export const HomeModule = () => {
         </Typography>
       </div>
       <SearchBar />
-      <Actions />
       <Heroes />
     </S.Container>
   )

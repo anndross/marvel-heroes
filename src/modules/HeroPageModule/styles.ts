@@ -7,14 +7,24 @@ export const Container = styled('header', {
 })
 
 export const Header = styled('header', {
-  maxWidth: '100vw',
+  width: '100%',
+  paddingTop: '1rem',
   display: 'flex',
-  gap: '5rem',
-  height: '50px',
-  padding: '20px 0',
-  paddingLeft: '10%',
-  paddingRight: '36%',
-  alignItems: 'center',
+  minHeight: '50px',
+  alignItems: 'start',
+  justifyContent: 'center',
+  '& > div': {
+    display: 'flex',
+    gap: '20px',
+    justifyContent: 'left',
+    alignItems: 'start',
+    width: '70vw',
+  },
+  '@media(max-width: 740px)': {
+    '& > div': {
+      flexDirection: 'column'
+    }
+  }
 })
 
 export const Information = styled('div', {

@@ -7,5 +7,10 @@ export const Container = styled('div', {
   gap: '20px',
   '& p': {
     whiteSpace: 'nowrap'
+  },
+  '@media(max-width: 340px)': {
+    flexDirection: 'column',
+    justifyContent: 'center',
+    width: '100%'
   }
 })

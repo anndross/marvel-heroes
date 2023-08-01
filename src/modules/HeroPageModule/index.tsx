@@ -1,45 +1,32 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import * as S from './styles'
-import axios from 'axios'
-import { Logo } from '@/components/logo'
-import { SearchBar } from '@/components/searchBar'
-import { Description } from './components/description'
+import { Logo } from '@/components/Logo'
+import { SearchBar } from '@/components/SearchBar'
+import { Description } from './components/Description'
 import { LastReleases } from './components/LastReleases'
+import { useHeroesStore } from '@/context'
 interface Props {
   id: string
 }
 
 export const HeroPageModule = ({ id }: Props) => {
-  const url = `https://gateway.marvel.com/v1/public/characters/${id}`
-  const [hero, setHero] = useState<any>([])
+  const heroesContext = useHeroesStore()
 
   useEffect(() => {
-    const fetchHero = async () => {
-      try {
-        const response = await axios.get(url, {
-          params: {
-            ts: process.env.NEXT_PUBLIC_TS,
-            apikey: process.env.NEXT_PUBLIC_API_KEY,
-            hash: process.env.NEXT_PUBLIC_HASH
-          }
-        })
-        setHero(response.data.data.results)
-      } catch (error) {
-        console.error(error);
-      }
-    }
-    fetchHero()
-  }, [])
+    heroesContext.fetchHeroById(id)
+  }, [heroesContext.fetchHeroById])
 
   return (
     <S.Container>
       <S.Header>
-        <Logo />
-        <SearchBar variant="secondary" />
+        <div>
+          <Logo />
+          <SearchBar variant="secondary" />
+        </div>
       </S.Header>
       <S.Information>
-        <Description hero={hero} />
-        <LastReleases heroComics={hero[0]?.comics?.items} />
+        <Description/>
+        <LastReleases id={id} />
       </S.Information>
     </S.Container>
   )
