@@ -1,19 +1,18 @@
 import { Typography } from "@/components/Typography"
 import * as S from './styles'
 import { useEffect, useState } from "react"
-import axios from "axios"
 import { useHeroesStore } from "@/context"
+import { ComicSkeleton } from "./ComicSkeleton"
+import { Comics } from "@/interfaces/ComicsInterface"
 
-interface Props {
-  id: string
-}
 
-export const LastReleases = ({ id }: Props) => {
-  const heroesContext = useHeroesStore()
+export const LastReleases = () => {
+  const { comics } = useHeroesStore()
+  const [comicsData, setComicsData] = useState<Comics[]>([])
 
   useEffect(() => {
-    heroesContext.fetchComicsById(id)
-  }, [heroesContext.fetchComicsById])
+    setComicsData(comics)
+  }, [comics])
 
   return (
     <S.Container>
@@ -21,16 +20,24 @@ export const LastReleases = ({ id }: Props) => {
         Últimos lançamentos
       </Typography>
       <S.LastReleases>
-        {heroesContext.comicsById?.map((e: any) => {
-          return (
-            <S.ComicCard key={e.id}>
-              <img src={e.thumbnail.path + '.' + e.thumbnail.extension} alt="" height={120} />
-              <Typography color='primary' size='small'>
-                {e.title}
-              </Typography>
-            </S.ComicCard>
-          )
-        })}
+        {!comicsData.length ?
+          Array(10).fill('').map((_, i) => {
+            return (
+              <ComicSkeleton key={i} />
+            )
+          })
+          :
+          comicsData?.map((e: any) => {
+            return (
+              <S.ComicCard key={e.id}>
+                <img src={e.thumbnail.path + '.' + e.thumbnail.extension} alt="" height={120} />
+                <Typography color='primary' size='small'>
+                  {e.title}
+                </Typography>
+              </S.ComicCard>
+            )
+          })
+        }
       </S.LastReleases>
     </S.Container>
   )

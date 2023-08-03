@@ -3,8 +3,19 @@ import { SearchBar } from '../../components/SearchBar'
 import { Typography } from '../../components/Typography'
 import { Heroes } from './components/Heroes'
 import * as S from './styles'
+import { useSearchParams } from 'next/navigation'
+import { useEffect } from 'react'
+import { handleLoadDataWhenIsHeroesPage } from './components/Heroes/utils/handleLoadDataWhenIsHeroesPage'
+import { useHeroesStore } from '@/context'
 
 export const HomeModule = () => {
+  const { get: getPage, has: hasPage } = useSearchParams()
+  const { fetchHeroes } = useHeroesStore()
+
+  useEffect(() => {
+    if (hasPage('heroes'))
+      handleLoadDataWhenIsHeroesPage(fetchHeroes, getPage('heroes') ?? '1')
+  }, [getPage('heroes')])
 
   return (
     <S.Container>

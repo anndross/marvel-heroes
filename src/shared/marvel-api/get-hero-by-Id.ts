@@ -1,12 +1,9 @@
+import { Hero } from "@/interfaces/HeroInterface"
 import axios from "axios"
-
-interface Hero {
-  name: string
-}
 
 interface Response {
   data: {
-    results: any[]
+    results: [Hero]
   }
 }
 
@@ -23,6 +20,7 @@ export const getHeroById = async (id: string) => {
     })
 
     const heroData = data.data.results
+
     return heroData
   } catch (error) {
     console.error(error);

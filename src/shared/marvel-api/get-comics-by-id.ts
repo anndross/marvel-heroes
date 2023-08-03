@@ -1,12 +1,9 @@
+import { Comics } from "@/interfaces/ComicsInterface"
 import axios from "axios"
-
-interface Hero {
-  name: string
-}
 
 interface Response {
   data: {
-    results: any[]
+    results: Comics[]
   }
 }
 

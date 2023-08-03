@@ -2,19 +2,24 @@ import { useEffect } from 'react'
 import * as S from './styles'
 import { Logo } from '@/components/Logo'
 import { SearchBar } from '@/components/SearchBar'
-import { Description } from './components/Description'
+import { Information } from './components/Information'
 import { LastReleases } from './components/LastReleases'
 import { useHeroesStore } from '@/context'
+
 interface Props {
   id: string
 }
 
 export const HeroPageModule = ({ id }: Props) => {
-  const heroesContext = useHeroesStore()
+  const { fetchHeroById, fetchComicsById } = useHeroesStore()
 
   useEffect(() => {
-    heroesContext.fetchHeroById(id)
-  }, [heroesContext.fetchHeroById])
+    fetchHeroById(id)
+  }, [fetchHeroById])
+
+  useEffect(() => {
+    fetchComicsById(id)
+  }, [fetchComicsById])
 
   return (
     <S.Container>
@@ -25,8 +30,8 @@ export const HeroPageModule = ({ id }: Props) => {
         </div>
       </S.Header>
       <S.Information>
-        <Description/>
-        <LastReleases id={id} />
+        <Information />
+        <LastReleases />
       </S.Information>
     </S.Container>
   )

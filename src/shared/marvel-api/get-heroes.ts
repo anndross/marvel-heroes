@@ -1,13 +1,10 @@
+import { Hero } from "@/interfaces/HeroInterface"
 import axios from "axios"
-
-interface Hero {
-  name: string
-}
 
 interface Response {
   data: {
     total: string
-    results: any[]
+    results: Hero[]
   }
 }
 
@@ -23,10 +20,15 @@ export const getHeroes = async (offset = 0) => {
       }
     })
 
-
     const heroesData = {
-      total: data.data.total,
-      results: data.data.results
+      total: String(data.data.total),
+      results: data.data.results.map(e => {
+        return {
+          ...e,
+          isFavorite: false,
+          review: 0
+        }
+      })
     }
 
     return heroesData

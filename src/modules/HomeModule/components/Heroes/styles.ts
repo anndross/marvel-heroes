@@ -6,20 +6,20 @@ export const Container = styled('div', {
   height: '100%',
   gridTemplateColumns: 'repeat(5, 1fr)',
   alignContent: 'center',
-  justifyItems: 'center', 
+  justifyItems: 'center',
   gap: '2rem',
   '@media(max-width: 1120px)': {
-   gridTemplateColumns: 'repeat(4, 1fr)',
+    gridTemplateColumns: 'repeat(4, 1fr)',
   },
   '@media(max-width: 930px)': {
     gridTemplateColumns: 'repeat(3, 1fr)',
-   },
-   '@media(max-width: 600px)': {
+  },
+  '@media(max-width: 600px)': {
     gridTemplateColumns: 'repeat(2, 1fr)',
-   },
-   '@media(max-width: 380px)': {
+  },
+  '@media(max-width: 380px)': {
     gridTemplateColumns: '1fr',
-   },
+  },
 })
 
 export const Card = styled('div', {
@@ -70,4 +70,12 @@ export const FiltersContainer = styled('div', {
   '@media(max-width: 745px)': {
     flexDirection: 'column'
   }
+})
+
+export const ContainerEmptyFavorite = styled('div', {
+  height: '100%',
+  width: '100%',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center'
 })
