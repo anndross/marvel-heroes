@@ -19,7 +19,7 @@ interface HeroesStore {
   setReviews: (review: HeroesStore['reviews']) => void
   setFavorites: (favorites: Hero[]) => void
   setVisible: (visibles: Hero[]) => void
-  fetchHeroes: (offset: number, page: string) => void
+  fetchHeroes: (offset: number) => void
   fetchHeroById: (id: string) => void
   fetchComicsById: (id: string) => void
 }
@@ -39,10 +39,9 @@ export const useHeroesStore = create<HeroesStore>()(
       setReviews: (reviews: HeroesStore['reviews']) => set({ reviews: reviews }),
       setFavorites: (favorites: Hero[]) => set({ favorites: favorites }),
       setVisible: (visible: Hero[]) => set({ visible: visible }),
-      fetchHeroes: async (offset: number, page: string) => {
+      fetchHeroes: async (offset: number) => {
         const heroesStored: Hero[] = get().heroes
         const heroes = await getHeroes(offset)
-
         if (heroesStored.length && heroesStored.some((e, i) => e.id !== heroes?.results[i].id)) {
           set({ heroes: heroes?.results })
         } else if (!heroesStored.length) {

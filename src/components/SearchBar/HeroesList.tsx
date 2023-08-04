@@ -3,8 +3,6 @@ import * as S from './styles'
 import { useRouter } from 'next/navigation'
 import { Typography } from '../Typography'
 
-
-
 interface Props {
   variant: 'primary' | 'secondary'
   list: Hero[]

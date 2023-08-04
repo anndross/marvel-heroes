@@ -19,7 +19,7 @@ export const Rating = () => {
     })
 
     setStars(stars)
-  }, [hero])
+  }, [hero, reviews])
 
   const onRating = (url: string, index: number) => {
     const mappedStars = stars.map((_, i) => {
@@ -50,7 +50,7 @@ export const Rating = () => {
             }}
             key={index}
             src={e}
-            alt=""
+            alt="rating"
             height={20}
           />
         )

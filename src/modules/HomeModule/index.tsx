@@ -17,11 +17,11 @@ export const HomeModule = () => {
 
   useEffect(() => {
     const page = Number(getPage('heroes'))
-    if (page > 1 && page <= 79) {
+    if (page >= 1 && page <= 79) {
       handleLoadHeroes(fetchHeroes, getPage('heroes') ?? '1', isSort)
-      console.log(isSort)
     }
   }, [getPage('heroes'), isSort])
+
 
   return (
     <S.Container>

@@ -9,7 +9,7 @@ export const Favorites = () => {
   useEffect(() => {
     if (favorites.length)
       setVisible(favorites)
-  }, [favorites])
+  }, [favorites, setVisible])
 
   return (
     <>

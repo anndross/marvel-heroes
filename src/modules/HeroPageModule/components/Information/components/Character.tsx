@@ -18,7 +18,7 @@ export const Character = () => {
           className="character"
           src={heroData[0]?.thumbnail?.path + '.' + heroData[0]?.thumbnail?.extension}
           alt="character"
-          height={'320px'}
+          height={320}
         />
         :
         <CardSkeleton

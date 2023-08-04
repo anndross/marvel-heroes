@@ -19,17 +19,16 @@ export const Pagination: React.FC = () => {
 
 
   const setPaginationRangeWhenIsLastPage = useCallback(() => {
-    if (currentPage === totalPages) {
-      setPaginationRange([totalPages, totalPages])
-    }
-  }, [currentPage, totalPages]);
+    setPaginationRange([totalPages, totalPages])
+    return
+  }, [totalPages]);
 
 
   const setPaginationRangeToButtons = useCallback(() => {
     if (currentPage > numPaginationButtons) {
       const rest = currentPage % numPaginationButtons
       const start = currentPage - (rest !== 0 ? rest - 1 : numPaginationButtons - 1)
-      const end = currentPage - rest + numPaginationButtons
+      const end = currentPage + (rest !== 0 ? Math.abs(rest - numPaginationButtons) : 0)
       setPaginationRange([start, end])
     }
   }, [currentPage, numPaginationButtons]);
@@ -37,9 +36,9 @@ export const Pagination: React.FC = () => {
 
 
   useEffect(() => {
-    setPaginationRangeWhenIsLastPage()
-    setPaginationRangeToButtons()
-  }, [getPage('heroes'), setPaginationRangeWhenIsLastPage, setPaginationRangeToButtons])
+    if (currentPage === totalPages) setPaginationRangeWhenIsLastPage()
+    else setPaginationRangeToButtons()
+  }, [getPage('heroes')]);
 
 
 

@@ -12,7 +12,7 @@ export const Heroes = () => {
   useEffect(() => {
     if (heroes.length)
       setVisible(heroes)
-  }, [heroes])
+  }, [heroes, setVisible])
 
   return (
     <>

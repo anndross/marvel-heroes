@@ -10,7 +10,7 @@ export default function Home() {
   useEffect(() => {
     if (!params.has('heroes') && !params.has('favorites'))
       router.push('/?heroes=1')
-  }, [])
+  }, [params, router])
 
   return (
     <HomeModule />

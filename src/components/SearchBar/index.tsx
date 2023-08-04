@@ -24,7 +24,7 @@ export const SearchBar = ({ variant = 'primary' }: Props) => {
   useEffect(() => {
     if (!heroes.length)
       handleLoadHeroes(fetchHeroes, '1')
-  }, [heroes])
+  }, [heroes, fetchHeroes])
 
   useEffect(() => {
     if (heroes.length)

@@ -30,7 +30,7 @@ export const LastReleases = () => {
           comicsData?.map((e: any) => {
             return (
               <S.ComicCard key={e.id}>
-                <img src={e.thumbnail.path + '.' + e.thumbnail.extension} alt="" height={120} />
+                <img src={e.thumbnail.path + '.' + e.thumbnail.extension} alt="comic" height={120} />
                 <Typography color='primary' size='small'>
                   {e.title}
                 </Typography>

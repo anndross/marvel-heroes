@@ -19,7 +19,7 @@ export const Name = () => {
 
   useEffect(() => {
     setIsFavorite(favorites.some(e => e.id === hero[0].id))
-  }, [isFavorite])
+  }, [favorites, hero])
 
   return (
     <S.Name>

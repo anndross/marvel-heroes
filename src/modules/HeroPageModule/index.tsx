@@ -15,11 +15,11 @@ export const HeroPageModule = ({ id }: Props) => {
 
   useEffect(() => {
     fetchHeroById(id)
-  }, [fetchHeroById])
+  }, [fetchHeroById, id])
 
   useEffect(() => {
     fetchComicsById(id)
-  }, [fetchComicsById])
+  }, [fetchComicsById, id])
 
   return (
     <S.Container>

@@ -20,7 +20,7 @@ export const Collection = () => {
           Quadrinhos
         </Typography>
         <div>
-          <img src="../assets/icones/book/Group.png" height={30} />
+          <img src="../assets/icones/book/Group.png" height={30} alt='book' />
           {heroData.length
             ?
             <Typography className="text" color='primary' size='medium' weight='lighter'>
@@ -36,7 +36,7 @@ export const Collection = () => {
           Filmes
         </Typography>
         <div>
-          <img src="../assets/icones/video/Shape.png" height={30} />
+          <img src="../assets/icones/video/Shape.png" height={30} alt='video' />
           {heroData.length
             ?
             <Typography className="text" color='primary' size='medium' weight='lighter'>

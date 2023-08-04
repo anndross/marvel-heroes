@@ -1,5 +1,5 @@
 export const handleLoadHeroes = (
-  fetchHeroes: (offset: number, page: string) => void,
+  fetchHeroes: (offset: number) => void,
   page: string,
   isSort = true
 ) => {
@@ -9,10 +9,14 @@ export const handleLoadHeroes = (
   if (!isSort) {
     const itemsCount = 1562
     const offset = 20 * pageNumber
+    const lastPage = 79
+    if (pageNumber === lastPage)
+      fetchHeroes(itemsCount)
+    else
+      fetchHeroes(itemsCount - offset)
 
-    fetchHeroes(itemsCount - offset, page)
     return
   }
 
-  fetchHeroes((pageNumber - 1) * offset, page)
+  fetchHeroes((pageNumber - 1) * offset)
 }
