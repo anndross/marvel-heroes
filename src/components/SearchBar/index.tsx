@@ -4,7 +4,6 @@ import { useEffect, useRef, useState } from 'react'
 import { handleCloseByOutsideClick } from './utils/handleCloseByOutsideClick'
 import { handleSearch } from './utils/handleSearch'
 import { HeroesList } from './HeroesList'
-import { handleDataChange } from './utils/handleDataChange'
 import { Hero } from '@/interfaces/HeroInterface'
 import { handleLoadHeroes } from '@/utils/handleLoadHeroes'
 
@@ -28,7 +27,8 @@ export const SearchBar = ({ variant = 'primary' }: Props) => {
   }, [heroes])
 
   useEffect(() => {
-    handleDataChange(heroes, setList)
+    if (heroes.length)
+      setList(heroes)
   }, [heroes])
 
   return (
@@ -39,11 +39,12 @@ export const SearchBar = ({ variant = 'primary' }: Props) => {
           onClick={() => {
             setShowList(true)
           }}
-          onChange={(e) => handleSearch(
-            e.target.value,
-            heroes,
-            setList
-          )}
+          onChange={(e) =>
+            handleSearch(
+              e.target.value,
+              heroes,
+              setList
+            )}
           placeholder="Procure por heróis"
         />
       </S.SearchBar>

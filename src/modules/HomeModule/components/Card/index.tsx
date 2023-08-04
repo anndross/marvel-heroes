@@ -4,7 +4,6 @@ import { Hero } from '@/interfaces/HeroInterface'
 import { Typography } from '@/components/Typography'
 import { Favorite } from '@/components/Favorite'
 import { useHeroesStore } from '@/context'
-import { handleToggleFavoriteById } from '@/modules/utils/handleToggleFavoriteById'
 
 
 interface Props {
@@ -12,7 +11,9 @@ interface Props {
 }
 export const Card = ({ hero }: Props) => {
   const router = useRouter()
-  const { heroes, updateHeroes } = useHeroesStore()
+  const { favorites, setFavorites } = useHeroesStore()
+
+  const isFavorite = favorites.some((e) => e.id === hero.id)
 
   return (
     <S.Card className='hero-card' key={hero.id}>
@@ -26,11 +27,15 @@ export const Card = ({ hero }: Props) => {
           {hero.name}
         </Typography>
         <Favorite
-          isFavorite={hero.isFavorite}
+          isFavorite={isFavorite}
           onFavorite={() => {
-            const updatedHeroes = handleToggleFavoriteById(heroes, hero.id)
-
-            updateHeroes(updatedHeroes)
+            if (!isFavorite) {
+              setFavorites([...favorites, hero])
+            }
+            else {
+              const favoritesWithoutHero = favorites.filter(e => e.id !== hero.id)
+              setFavorites(favoritesWithoutHero)
+            }
           }}
         />
       </div>

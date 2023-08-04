@@ -1,12 +1,10 @@
 import { Typography } from '@/components/Typography'
 import * as S from '../styles'
 import { useHeroesStore } from '@/context'
-import { Hero } from '@/interfaces/HeroInterface'
 import { useEffect, useState } from 'react'
-import { Heroes } from '@/interfaces/HeroesInterface'
 
 export const Rating = () => {
-  const { hero } = useHeroesStore()
+  const { reviews, hero, setReviews } = useHeroesStore()
   const markedStar = '../assets/review/ratingstarred.png'
   const star = '../assets/review/ratingstar.png'
 
@@ -15,13 +13,32 @@ export const Rating = () => {
 
   useEffect(() => {
     const stars = Array(5).fill('').map((_, i) => {
-      return i < hero[0]?.review ? markedStar : star
+      const heroReview = reviews[hero[0].id]
+
+      return !heroReview ? star : i < heroReview ? markedStar : star
     })
 
     setStars(stars)
   }, [hero])
 
+  const onRating = (url: string, index: number) => {
+    const mappedStars = stars.map((_, i) => {
+      if (url === markedStar) {
+        return i >= index ? star : markedStar
+      } else {
+        return i <= index ? markedStar : star
+      }
+    })
+    setStars(mappedStars)
 
+    if (url === markedStar)
+      setReviews({ ...reviews, [hero[0].id]: index })
+    else
+      setReviews({ ...reviews, [hero[0].id]: index + 1 })
+
+
+  }
+  console.log(reviews)
   return (
     <S.Rating>
       <Typography className="text" color='primary' size='medium' weight='lighter'>
@@ -30,6 +47,9 @@ export const Rating = () => {
       {stars.map((e, index) => {
         return (
           <img
+            onClick={() => {
+              onRating(e, index)
+            }}
             key={index}
             src={e}
             alt=""

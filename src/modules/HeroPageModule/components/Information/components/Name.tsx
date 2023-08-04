@@ -5,16 +5,21 @@ import { Favorite } from '@/components/Favorite'
 import { useHeroesStore } from '@/context'
 import { useEffect, useState } from 'react'
 import { Hero } from '@/interfaces/HeroInterface'
-import { handleToggleFavoriteById } from '@/modules/utils/handleToggleFavoriteById'
-
 
 export const Name = () => {
-  const { heroes, updateHeroes, hero } = useHeroesStore()
+  const { favorites, setFavorites, hero } = useHeroesStore()
+
   const [heroData, setHeroData] = useState<Hero[]>([])
+  const [isFavorite, setIsFavorite] = useState(false)
+
 
   useEffect(() => {
     setHeroData(hero)
   }, [hero])
+
+  useEffect(() => {
+    setIsFavorite(favorites.some(e => e.id === hero[0].id))
+  }, [isFavorite])
 
   return (
     <S.Name>
@@ -27,11 +32,15 @@ export const Name = () => {
       }
       <Favorite
         height={24}
-        isFavorite={heroData[0]?.isFavorite}
+        isFavorite={isFavorite}
         onFavorite={() => {
-          const updatedHeroes = handleToggleFavoriteById(heroes, heroData[0].id)
-
-          updateHeroes(updatedHeroes)
+          if (!isFavorite) {
+            setFavorites([...favorites, hero[0]])
+          }
+          else {
+            const favoritesWithoutHero = favorites.filter(e => e.id !== hero[0].id)
+            setFavorites(favoritesWithoutHero)
+          }
         }}
       />
     </S.Name>

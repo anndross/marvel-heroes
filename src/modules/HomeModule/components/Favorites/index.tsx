@@ -1,26 +1,24 @@
 import { useHeroesStore } from "@/context"
-import { handleReturnAllHeroes } from "@/utils/handleReturnAllHeroes"
 import { useEffect } from "react"
 import { Card } from "../Card"
 import { NoFavorites } from "./NoFavorites"
+import { useSearchParams } from "next/navigation"
 
 export const Favorites = () => {
-  const { visible, setVisible, heroes } = useHeroesStore()
+  const { visible, setVisible, favorites } = useHeroesStore()
 
   useEffect(() => {
-    const data = handleReturnAllHeroes(heroes)
-    const favorites = data.filter(e => e.isFavorite)
-
-    setVisible(favorites)
-  }, [heroes])
+    if (favorites.length)
+      setVisible(favorites)
+  }, [favorites])
 
   return (
     <>
-      {!visible.length
+      {favorites.length
         ?
-        <NoFavorites />
-        :
         visible.map(hero => <Card key={hero.id} hero={hero} />)
+        :
+        <NoFavorites />
       }
     </>
   )

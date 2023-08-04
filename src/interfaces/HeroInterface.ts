@@ -12,6 +12,4 @@ export interface Hero {
     path: string
     extension: string
   }
-  isFavorite: boolean
-  review: number
 }

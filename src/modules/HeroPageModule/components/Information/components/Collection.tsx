@@ -9,11 +9,10 @@ export const Collection = () => {
   const { hero } = useHeroesStore()
   const [heroData, setHeroData] = useState<Hero[]>([])
 
-
   useEffect(() => {
     setHeroData(hero)
   }, [hero])
-
+  console.log(hero)
   return (
     <S.Collection>
       <S.Job>
@@ -25,7 +24,7 @@ export const Collection = () => {
           {heroData.length
             ?
             <Typography className="text" color='primary' size='medium' weight='lighter'>
-              {heroData[0]?.comics.available}
+              {heroData[0]?.comics?.available}
             </Typography>
             :
             <TypographySkeleton width="10px" />
@@ -41,7 +40,7 @@ export const Collection = () => {
           {heroData.length
             ?
             <Typography className="text" color='primary' size='medium' weight='lighter'>
-              {heroData[0]?.series.available}
+              {heroData[0]?.series?.available}
             </Typography>
             :
             <TypographySkeleton width="10px" />

@@ -1,18 +1,14 @@
 import { Hero } from "@/interfaces/HeroInterface"
-import { Heroes } from "@/interfaces/HeroesInterface"
 
 export const handleSearch = (
   typedValue: string,
-  list: Heroes[],
+  list: Hero[],
   setList: (list: Hero[]) => void
 ) => {
-  const flatData = list.map(e => {
-    return e[Object.keys(e) as any]
-  }).flat()
 
   const formattedTypedValue = typedValue.toLowerCase().trim()
 
-  const searchedList = flatData.filter(hero => {
+  const searchedList = list.filter(hero => {
     const formattedHeroName = hero.name.toLocaleLowerCase().trim()
 
     return formattedHeroName.includes(formattedTypedValue)
@@ -21,6 +17,6 @@ export const handleSearch = (
   setList(searchedList)
 
   if (typedValue === '') {
-    setList(flatData)
+    setList(list)
   }
 }

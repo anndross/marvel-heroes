@@ -22,13 +22,7 @@ export const getHeroes = async (offset = 0) => {
 
     const heroesData = {
       total: String(data.data.total),
-      results: data.data.results.map(e => {
-        return {
-          ...e,
-          isFavorite: false,
-          review: 0
-        }
-      })
+      results: data.data.results
     }
 
     return heroesData

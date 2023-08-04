@@ -2,7 +2,7 @@ import { Typography } from "@/components/Typography"
 import { ToggleButton } from "../toggleButton"
 import { useEffect, useState } from "react"
 import { useHeroesStore } from "@/context";
-import { sortHeroesAlphabetically } from "./utils/handleSortHeroesAlphabetically";
+import { sortHeroesAlphabetically } from "@/utils/handleSortHeroesAlphabetically";
 
 export const SortHeroes = () => {
     const { visible, setVisible } = useHeroesStore()

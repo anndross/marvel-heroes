@@ -10,7 +10,9 @@ export const Container = styled('div', {
 })
 
 export const Button = styled('button', {
-  padding: '0.6rem',
+  height: '40px',
+  width: '40px',
+
   background: '$secondary100',
   color: '#000',
   border: '0',
@@ -18,5 +20,18 @@ export const Button = styled('button', {
   cursor: 'pointer',
   '&:hover': {
     background: '$secondary200'
+  }
+})
+
+export const NextPrevButton = styled('button', {
+  padding: '0.6rem',
+  background: 'transparent',
+  color: '#000',
+  border: '0',
+  fontSize: '20px',
+  borderRadius: '0.2rem',
+  cursor: 'pointer',
+  '&:hover': {
+    background: '$primary100'
   }
 })
