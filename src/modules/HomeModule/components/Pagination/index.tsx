@@ -33,13 +33,15 @@ export const Pagination: React.FC = () => {
     }
   }
 
-
+  useEffect(() => {
+    if (currentPage === 1)
+      setPaginationRange([1, numPaginationButtons])
+  }, [])
 
   useEffect(() => {
-    if (currentPage === 1) setPaginationRange([1, numPaginationButtons])
     if (currentPage === totalPages) setPaginationRangeWhenIsLastPage()
     else setPaginationRangeToButtons()
-  }, [getPage('heroes'), currentPage, setPaginationRangeToButtons, setPaginationRangeWhenIsLastPage, totalPages]);
+  }, [getPage('heroes')]);
 
 
 
