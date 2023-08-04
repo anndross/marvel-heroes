@@ -7,19 +7,19 @@ const range = (start: number, end: number) => Array.from({ length: end - start +
 
 export const Pagination: React.FC = () => {
   const { has: hasPage, get: getPage } = useSearchParams()
-  const { total: totalItems } = useHeroesStore()
 
   const router = useRouter()
   const numPaginationButtons = 6
   const [paginationRange, setPaginationRange] = useState<[number, number]>([1, numPaginationButtons])
+  const totalItems = 1562
   const itemsPerPage = 20
   const currentPage = Number(getPage('heroes'))
-
-  const totalPages = Math.ceil(Number(totalItems) / itemsPerPage)
+  const totalPages = Math.ceil(totalItems / itemsPerPage)
 
 
   const setPaginationRangeWhenIsLastPage = () => {
     setPaginationRange([totalPages, totalPages])
+
     return
   }
 
@@ -32,11 +32,6 @@ export const Pagination: React.FC = () => {
       setPaginationRange([start, end])
     }
   }
-
-  useEffect(() => {
-    if (currentPage === 1)
-      setPaginationRange([1, numPaginationButtons])
-  }, [])
 
   useEffect(() => {
     if (currentPage === totalPages) setPaginationRangeWhenIsLastPage()
@@ -68,11 +63,7 @@ export const Pagination: React.FC = () => {
     }
   }
 
-
-
   const paginationButtons = range(paginationRange[0], paginationRange[1]);
-
-
 
   return (
     <>
