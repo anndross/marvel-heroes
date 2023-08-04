@@ -5,9 +5,8 @@ import { handleCloseByOutsideClick } from './utils/handleCloseByOutsideClick'
 import { handleSearch } from './utils/handleSearch'
 import { HeroesList } from './HeroesList'
 import { handleDataChange } from './utils/handleDataChange'
-import { handleLoadDataWhenIsHeroesPage } from '@/modules/HomeModule/components/Heroes/utils/handleLoadDataWhenIsHeroesPage'
-import { useSearchParams } from 'next/navigation'
 import { Hero } from '@/interfaces/HeroInterface'
+import { handleLoadHeroes } from '@/utils/handleLoadHeroes'
 
 interface Props {
   variant?: 'primary' | 'secondary'
@@ -25,7 +24,7 @@ export const SearchBar = ({ variant = 'primary' }: Props) => {
 
   useEffect(() => {
     if (!heroes.length)
-      handleLoadDataWhenIsHeroesPage(fetchHeroes, '1')
+      handleLoadHeroes(fetchHeroes, '1')
   }, [heroes])
 
   useEffect(() => {

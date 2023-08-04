@@ -14,8 +14,6 @@ export const Collection = () => {
     setHeroData(hero)
   }, [hero])
 
-
-  console.log(hero)
   return (
     <S.Collection>
       <S.Job>

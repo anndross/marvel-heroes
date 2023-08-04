@@ -11,7 +11,7 @@ export const handleSearch = (
   }).flat()
 
   const formattedTypedValue = typedValue.toLowerCase().trim()
-  console.log(list)
+
   const searchedList = flatData.filter(hero => {
     const formattedHeroName = hero.name.toLocaleLowerCase().trim()
 

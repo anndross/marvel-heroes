@@ -1,5 +1,5 @@
 import { Typography } from '@/components/Typography'
-import * as S from '../../styles'
+import * as S from './styles'
 import { SortHeroes } from './SortHeroes'
 import { ShowFavorites } from './ShowFavorites'
 import { useHeroesStore } from '@/context'

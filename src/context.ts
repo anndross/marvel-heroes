@@ -69,7 +69,6 @@ export const useHeroesStore = create<HeroesStore>()(
 
           if (hero[0].id === undefined) {
             const heroById = await getHeroById(id) || [] as Hero[]
-            console.log(`caiu aqui de novo`)
             hero = [{
               ...heroById[0],
               review: 0,

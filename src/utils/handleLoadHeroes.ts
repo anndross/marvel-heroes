@@ -1,6 +1,6 @@
 import { Hero } from "@/interfaces/HeroInterface"
 
-export const handleLoadDataWhenIsHeroesPage = (
+export const handleLoadHeroes = (
   fetchHeroes: (offset: number, page: string) => void,
   page: string
 ) => {

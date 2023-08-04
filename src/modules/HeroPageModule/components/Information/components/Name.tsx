@@ -5,30 +5,16 @@ import { Favorite } from '@/components/Favorite'
 import { useHeroesStore } from '@/context'
 import { useEffect, useState } from 'react'
 import { Hero } from '@/interfaces/HeroInterface'
+import { handleToggleFavoriteById } from '@/modules/utils/handleToggleFavoriteById'
 
 
 export const Name = () => {
   const { heroes, updateHeroes, hero } = useHeroesStore()
   const [heroData, setHeroData] = useState<Hero[]>([])
 
-
   useEffect(() => {
     setHeroData(hero)
   }, [hero])
-
-  const toggleFavoriteById = (array: typeof heroes, id: string) => {
-    array.forEach(object => {
-      const key = Object.keys(object)[0];
-      const objectArray = object[key];
-
-      const foundObject = objectArray.find(obj => obj.id === id);
-      if (foundObject) {
-        foundObject.isFavorite = !foundObject.isFavorite;
-      }
-    });
-
-    return array;
-  }
 
   return (
     <S.Name>
@@ -40,9 +26,10 @@ export const Name = () => {
         <TypographySkeleton width="200px" />
       }
       <Favorite
+        height={24}
         isFavorite={heroData[0]?.isFavorite}
         onFavorite={() => {
-          const updatedHeroes = toggleFavoriteById(heroes, heroData[0].id)
+          const updatedHeroes = handleToggleFavoriteById(heroes, heroData[0].id)
 
           updateHeroes(updatedHeroes)
         }}

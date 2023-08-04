@@ -8,19 +8,21 @@ export const ShowFavorites = () => {
     const router = useRouter()
     const params = useSearchParams()
 
+    const onFavorite = () => {
+        const isFavoritePage = params.has('favorites')
+
+        if (!isFavoritePage) {
+            setLastQuery(params.toString())
+            router.push('/?favorites')
+        } else
+            router.push('/?' + lastQuery)
+    }
+
     return (
         <div>
             <Favorite
                 isFavorite={params.has('favorites')}
-                onFavorite={() => {
-                    const isFavoritePage = params.has('favorites')
-
-                    if (!isFavoritePage) {
-                        setLastQuery(params.toString())
-                        router.push('/?favorites')
-                    } else
-                        router.push('/?' + lastQuery)
-                }}
+                onFavorite={onFavorite}
                 height={20}
             />
             <Typography size="medium">

@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { HomeModule } from '../modules/HomeModule';
 import { useRouter, useSearchParams } from 'next/navigation';
 
@@ -8,12 +8,12 @@ export default function Home() {
   const params = useSearchParams()
 
   useEffect(() => {
-    if(!params.has('heroes') && !params.has('favorites'))
+    if (!params.has('heroes') && !params.has('favorites'))
       router.push('/?heroes=1')
   }, [])
 
   return (
-      <HomeModule />
+    <HomeModule />
   );
 }
 

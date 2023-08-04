@@ -5,16 +5,20 @@ import { Heroes } from './components/Heroes'
 import * as S from './styles'
 import { useSearchParams } from 'next/navigation'
 import { useEffect } from 'react'
-import { handleLoadDataWhenIsHeroesPage } from './components/Heroes/utils/handleLoadDataWhenIsHeroesPage'
 import { useHeroesStore } from '@/context'
+import { Pagination } from './components/Pagination'
+import { Actions } from './components/Actions'
+import { Favorites } from './components/Favorites'
+import { handleLoadHeroes } from '@/utils/handleLoadHeroes'
 
 export const HomeModule = () => {
   const { get: getPage, has: hasPage } = useSearchParams()
   const { fetchHeroes } = useHeroesStore()
 
   useEffect(() => {
-    if (hasPage('heroes'))
-      handleLoadDataWhenIsHeroesPage(fetchHeroes, getPage('heroes') ?? '1')
+    if (hasPage('heroes')) {
+      handleLoadHeroes(fetchHeroes, getPage('heroes') ?? '1')
+    }
   }, [getPage('heroes')])
 
   return (
@@ -29,7 +33,11 @@ export const HomeModule = () => {
         </Typography>
       </div>
       <SearchBar />
-      <Heroes />
+      <Actions />
+      <S.Grid>
+        {hasPage('heroes') ? <Heroes /> : hasPage('favorites') && <Favorites />}
+      </S.Grid>
+      <Pagination />
     </S.Container>
   )
 }

@@ -2,67 +2,50 @@ import { useEffect, useState } from 'react'
 import * as S from './styles'
 import { useHeroesStore } from '@/context'
 import { useRouter, useSearchParams } from 'next/navigation'
-import { handleLoadDataWhenIsHeroesPage } from '../Heroes/utils/handleLoadDataWhenIsHeroesPage'
 
 export const Pagination = () => {
-  const [addNumber, setAddNumber] = useState(1)
+  const { has: hasPage, get: getPage } = useSearchParams()
   const router = useRouter()
-  const params = useSearchParams()
-  const { total, fetchHeroes } = useHeroesStore()
-
-  const [quantity, setQuantity] = useState(8)
-
-  const { get: getPage } = useSearchParams()
-
-  // useEffect(() => {
-  //   if (params.has('heroes'))
-  //     handleLoadDataWhenIsHeroesPage(fetchHeroes, getPage('heroes') ?? '1')
-  // }, [params.toString()])
+  const { total } = useHeroesStore()
+  const quantityOfItemsPerPage = 20
+  const quantityOfPages = (Number(total) - 2) / quantityOfItemsPerPage
+  const [buttonPageValue, setButtonPageValue] = useState(1)
+  const quantityOfButtons = buttonPageValue < 6 ? 6 : 7
 
   useEffect(() => {
-    if (Number(params.get('heroes')) >= 1560) {
-      setQuantity(4)
-    } else if (Number(params.get('heroes')) <= 1560) {
-      setQuantity(8)
+    const page = Number(getPage('heroes'))
+    if (page > 6 && page <= quantityOfPages) {
+      const rest = page % 6
+
+      rest === 0 ? setButtonPageValue(page - 6) : setButtonPageValue(page - rest)
     }
 
-    const a = Number(params.get('heroes'))
-    if (a > 1) {
-      setAddNumber(a - 1)
-    }
+  }, [getPage('heroes')])
 
-  }, [params.toString()])
+  const onClick = (i: number) => {
+    const buttonValue = buttonPageValue + i
+    const subButtonValue = buttonValue === 6 ? 5 : 6
+
+    if (buttonValue % 6 === 0 && buttonValue <= quantityOfPages) setButtonPageValue(buttonValue)
+    if (buttonValue === buttonPageValue && buttonValue >= 6) setButtonPageValue(buttonValue - subButtonValue)
+
+
+    router.push('/?heroes=' + (buttonPageValue + i))
+  }
 
   return (
     <>
-      {!params.has('favorites') &&
+      {hasPage('heroes') &&
         <S.Container>
-          {Array(quantity).fill('')
-            .map((_, i) => {
-              return (
-                <S.Button
-                  key={i}
-                  css={{
-                    background: Number(params.get('heroes')) === (i + addNumber) ?
-                      '$colors$secondary200' : '$secondary100'
+          {Array(quantityOfButtons).fill('').map((_, i) => {
+            const value = buttonPageValue + i
 
-                  }}
-
-                  onClick={() => {
-                    if (Number(total) > (i + addNumber) && i > 1) {
-                      setAddNumber(i + (addNumber - 1))
-                    }
-
-                    if (i === 0 && addNumber > 1) {
-                      setAddNumber(addNumber - 1)
-                    }
-                    router.push('/?heroes=' + (i + addNumber))
-                  }}
-                >
-                  {i + addNumber}
-                </S.Button>
-              )
-            })}
+            return (
+              <S.Button key={i} onClick={() => onClick(i)}>
+                {value}
+              </S.Button>
+            )
+          })}
         </S.Container>
       }
     </>
