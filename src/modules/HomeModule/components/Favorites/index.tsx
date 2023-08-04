@@ -2,7 +2,6 @@ import { useHeroesStore } from "@/context"
 import { useEffect } from "react"
 import { Card } from "../Card"
 import { NoFavorites } from "./NoFavorites"
-import { useSearchParams } from "next/navigation"
 
 export const Favorites = () => {
   const { visible, setVisible, favorites } = useHeroesStore()

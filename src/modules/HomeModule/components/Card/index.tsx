@@ -16,10 +16,10 @@ export const Card = ({ hero }: Props) => {
   const isFavorite = favorites.some((e) => e.id === hero.id)
 
   return (
-    <S.Card className='hero-card' key={hero.id}>
+    <S.Card key={hero?.id}>
       <img
-        onClick={() => router.push('/' + hero.id)}
-        src={hero.thumbnail.path + '.' + hero.thumbnail.extension}
+        onClick={() => router.push('/' + hero?.id)}
+        src={hero?.thumbnail?.path + '.' + hero?.thumbnail?.extension}
         alt="character"
       />
       <div>

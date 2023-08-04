@@ -1,76 +1,108 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useState, useMemo, useCallback } from 'react'
 import * as S from './styles'
 import { useHeroesStore } from '@/context'
 import { useRouter, useSearchParams } from 'next/navigation'
 
-const range = (start: number, end: number) => {
-  let length = end - start + 1;
+const range = (start: number, end: number) => Array.from({ length: end - start + 1 }, (_, idx) => idx + start);
 
-  return Array.from({ length }, (_, idx) => idx + start);
-};
-
-export const Pagination = () => {
+export const Pagination: React.FC = () => {
   const { has: hasPage, get: getPage } = useSearchParams()
-  const router = useRouter()
-  const buttonPagesNumber = 6
-  const lastPage = 79
+  const { total: totalItems } = useHeroesStore()
 
-  const [startEnd, setStartEnd] = useState([1, buttonPagesNumber])
+  const router = useRouter()
+  const numPaginationButtons = 6
+  const [paginationRange, setPaginationRange] = useState<[number, number]>([1, numPaginationButtons])
+  const itemsPerPage = 20
+  const currentPage = Number(getPage('heroes'))
+
+  const totalPages = useMemo(() => Math.ceil(Number(totalItems) / itemsPerPage), [totalItems, itemsPerPage]);
+
+
+  const setPaginationRangeWhenIsLastPage = useCallback(() => {
+    if (currentPage === totalPages) {
+      setPaginationRange([totalPages, totalPages])
+    }
+  }, [currentPage, totalPages]);
+
+
+  const setPaginationRangeToButtons = useCallback(() => {
+    if (currentPage > numPaginationButtons) {
+      const rest = currentPage % numPaginationButtons
+      const start = currentPage - (rest !== 0 ? rest - 1 : numPaginationButtons - 1)
+      const end = currentPage - rest + numPaginationButtons
+      setPaginationRange([start, end])
+    }
+  }, [currentPage, numPaginationButtons]);
+
+
 
   useEffect(() => {
-    const page = Number(getPage('heroes'))
-    if (page === lastPage) {
-      setStartEnd([lastPage, lastPage])
-      return
+    setPaginationRangeWhenIsLastPage()
+    setPaginationRangeToButtons()
+  }, [getPage('heroes'), setPaginationRangeWhenIsLastPage, setPaginationRangeToButtons])
+
+
+
+  const handlePrevButtonClick = useCallback(() => {
+    if (paginationRange[0] > numPaginationButtons) {
+      setPaginationRange([paginationRange[0] - numPaginationButtons, paginationRange[1] - numPaginationButtons])
     }
-    if (page > 6) {
-      const rest = page % buttonPagesNumber
-      rest !== 0 ?
-        setStartEnd([page - rest + 1, (page - rest) + buttonPagesNumber])
-        :
-        setStartEnd([page - (buttonPagesNumber - 1), page])
+    if (paginationRange[0] === numPaginationButtons) {
+      setPaginationRange([paginationRange[0] - (numPaginationButtons - 1), paginationRange[1] - numPaginationButtons])
     }
-  }, [getPage('heroes')])
+    if (paginationRange[1] === totalPages) {
+      setPaginationRange([73, 78])
+    }
+  }, [paginationRange, numPaginationButtons, totalPages]);
+
+
+
+  const handleNextButtonClick = useCallback(() => {
+    if (paginationRange[1] <= 72) {
+      setPaginationRange([paginationRange[0] + numPaginationButtons, paginationRange[1] + numPaginationButtons])
+    }
+    if (paginationRange[1] === 78) {
+      setPaginationRange([totalPages, totalPages])
+    }
+  }, [paginationRange, numPaginationButtons, totalPages]);
+
+
+
+  const paginationButtons = useMemo(() => range(paginationRange[0], paginationRange[1]), [paginationRange]);
+
+
 
   return (
     <>
-      {hasPage('heroes') &&
+      {hasPage('heroes') && (
         <S.Container>
           <S.NextPrevButton
-            onClick={() => {
-              if (startEnd[0] > buttonPagesNumber)
-                setStartEnd([startEnd[0] - buttonPagesNumber, startEnd[1] - buttonPagesNumber])
-              if (startEnd[0] === buttonPagesNumber)
-                setStartEnd([startEnd[0] - (buttonPagesNumber - 1), startEnd[1] - buttonPagesNumber])
-              if (startEnd[1] === lastPage)
-                setStartEnd([73, 78])
-            }}
+            css={{ visibility: paginationRange[0] === 1 ? 'hidden' : 'visible' }}
+            onClick={handlePrevButtonClick}
           >
             {'<'}
           </S.NextPrevButton>
-          {range(startEnd[0], startEnd[1]).map((e) => {
+          {paginationButtons.map((pageNumber) => {
+            const isSelectedButton = currentPage === pageNumber
+
             return (
               <S.Button
-                css={{ background: Number(getPage('heroes')) === e ? '$secondary200' : '$secondary100' }}
-                onClick={() => router.push('?heroes=' + e)}
+                key={pageNumber}
+                css={{ background: isSelectedButton ? '$secondary200' : '$secondary100' }}
+                onClick={() => router.push('?heroes=' + pageNumber)}
               >
-                {e}
+                {pageNumber}
               </S.Button>
             )
           })}
           <S.NextPrevButton
-            onClick={() => {
-              if (startEnd[1] <= 72)
-                setStartEnd([startEnd[0] + buttonPagesNumber, startEnd[1] + buttonPagesNumber])
-              if (startEnd[1] === 78) {
-                setStartEnd([lastPage, lastPage])
-              }
-            }}
+            css={{ visibility: paginationRange[1] === 79 ? 'hidden' : 'visible' }}
+            onClick={handleNextButtonClick}
           >
             {'>'}
           </S.NextPrevButton>
         </S.Container>
-      }
+      )}
     </>
   )
 }

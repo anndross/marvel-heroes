@@ -35,10 +35,8 @@ export const Rating = () => {
       setReviews({ ...reviews, [hero[0].id]: index })
     else
       setReviews({ ...reviews, [hero[0].id]: index + 1 })
-
-
   }
-  console.log(reviews)
+
   return (
     <S.Rating>
       <Typography className="text" color='primary' size='medium' weight='lighter'>

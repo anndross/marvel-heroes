@@ -13,13 +13,15 @@ import { handleLoadHeroes } from '@/utils/handleLoadHeroes'
 
 export const HomeModule = () => {
   const { get: getPage, has: hasPage } = useSearchParams()
-  const { fetchHeroes } = useHeroesStore()
+  const { fetchHeroes, isSort } = useHeroesStore()
 
   useEffect(() => {
-    if (hasPage('heroes')) {
-      handleLoadHeroes(fetchHeroes, getPage('heroes') ?? '1')
+    const page = Number(getPage('heroes'))
+    if (page > 1 && page <= 79) {
+      handleLoadHeroes(fetchHeroes, getPage('heroes') ?? '1', isSort)
+      console.log(isSort)
     }
-  }, [getPage('heroes')])
+  }, [getPage('heroes'), isSort])
 
   return (
     <S.Container>

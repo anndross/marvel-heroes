@@ -6,8 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
-    "test:e2e": "cypress open"
+    "lint": "next lint"
   },
   "dependencies": {
     "@stitches/react": "^1.2.8",
@@ -24,8 +23,5 @@
     "react-loading-skeleton": "^3.3.1",
     "typescript": "5.1.6",
     "zustand": "^4.3.9"
-  },
-  "devDependencies": {
-    "cypress": "^9"
   }
 }

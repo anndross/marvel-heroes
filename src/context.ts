@@ -10,10 +10,12 @@ interface HeroesStore {
   visible: Hero[]
   total: string
   heroes: Hero[]
+  isSort: boolean
   favorites: Hero[]
   hero: [Hero]
   reviews: { [id: string]: number }
   comics: Comics[]
+  setIsSort: (isSort: boolean) => void
   setReviews: (review: HeroesStore['reviews']) => void
   setFavorites: (favorites: Hero[]) => void
   setVisible: (visibles: Hero[]) => void
@@ -27,11 +29,13 @@ export const useHeroesStore = create<HeroesStore>()(
     (set, get: any) => ({
       visible: [],
       total: '',
+      isSort: true,
       heroes: [],
       reviews: {},
       favorites: [],
       hero: [{} as Hero],
       comics: [],
+      setIsSort: (isSort: boolean) => set({ isSort: isSort }),
       setReviews: (reviews: HeroesStore['reviews']) => set({ reviews: reviews }),
       setFavorites: (favorites: Hero[]) => set({ favorites: favorites }),
       setVisible: (visible: Hero[]) => set({ visible: visible }),
