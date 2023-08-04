@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo, useCallback } from 'react'
+import { useEffect, useState } from 'react'
 import * as S from './styles'
 import { useHeroesStore } from '@/context'
 import { useRouter, useSearchParams } from 'next/navigation'
@@ -15,23 +15,23 @@ export const Pagination: React.FC = () => {
   const itemsPerPage = 20
   const currentPage = Number(getPage('heroes'))
 
-  const totalPages = useMemo(() => Math.ceil(Number(totalItems) / itemsPerPage), [totalItems, itemsPerPage]);
+  const totalPages = Math.ceil(Number(totalItems) / itemsPerPage)
 
 
-  const setPaginationRangeWhenIsLastPage = useCallback(() => {
+  const setPaginationRangeWhenIsLastPage = () => {
     setPaginationRange([totalPages, totalPages])
     return
-  }, [totalPages]);
+  }
 
 
-  const setPaginationRangeToButtons = useCallback(() => {
+  const setPaginationRangeToButtons = () => {
     if (currentPage > numPaginationButtons) {
       const rest = currentPage % numPaginationButtons
       const start = currentPage - (rest !== 0 ? rest - 1 : numPaginationButtons - 1)
       const end = currentPage + (rest !== 0 ? Math.abs(rest - numPaginationButtons) : 0)
       setPaginationRange([start, end])
     }
-  }, [currentPage, numPaginationButtons]);
+  }
 
 
 
@@ -42,7 +42,7 @@ export const Pagination: React.FC = () => {
 
 
 
-  const handlePrevButtonClick = useCallback(() => {
+  const handlePrevButtonClick = () => {
     if (paginationRange[0] > numPaginationButtons) {
       setPaginationRange([paginationRange[0] - numPaginationButtons, paginationRange[1] - numPaginationButtons])
     }
@@ -52,22 +52,22 @@ export const Pagination: React.FC = () => {
     if (paginationRange[1] === totalPages) {
       setPaginationRange([73, 78])
     }
-  }, [paginationRange, numPaginationButtons, totalPages]);
+  }
 
 
 
-  const handleNextButtonClick = useCallback(() => {
+  const handleNextButtonClick = () => {
     if (paginationRange[1] <= 72) {
       setPaginationRange([paginationRange[0] + numPaginationButtons, paginationRange[1] + numPaginationButtons])
     }
     if (paginationRange[1] === 78) {
       setPaginationRange([totalPages, totalPages])
     }
-  }, [paginationRange, numPaginationButtons, totalPages]);
+  }
 
 
 
-  const paginationButtons = useMemo(() => range(paginationRange[0], paginationRange[1]), [paginationRange]);
+  const paginationButtons = range(paginationRange[0], paginationRange[1]);
 
 
 
